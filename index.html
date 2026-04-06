@@ -3,615 +3,991 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ahmad AlMaghaireh | Cyber Security Portfolio</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/csshake/dist/csshake.min.css">
+  <title>Ahmad AlMaghaireh | Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:       #080c10;
+      --bg2:      #0d1218;
+      --bg3:      #111820;
+      --border:   #1e2a38;
+      --green:    #00e676;
+      --green-dim:#00e67633;
+      --blue:     #38bdf8;
+      --blue-dim: #38bdf815;
+      --text:     #cdd6e0;
+      --text-dim: #5a7080;
+      --white:    #eef2f6;
+      --accent:   #ff6b35;
+    }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: 'Courier New', monospace;
-      position: relative;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
       overflow-x: hidden;
+      cursor: none;
     }
-    
-    /* Matrix background effect */
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.15;
-    }
-    
-    .navbar {
-      background-color: #161b22;
-      border-bottom: 1px solid #238636;
-    }
-    
-    .navbar-brand {
-      font-family: 'Courier New', monospace;
-      font-weight: bold;
-      color: #33ff33 !important;
-    }
-    
-    .section-title {
-      color: #58a6ff;
-      margin-bottom: 20px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      bottom: -5px;
-      left: 0;
-      background: linear-gradient(90deg, #58a6ff, #238636);
-      animation: titleUnderline 3s ease infinite;
-    }
-    
-    @keyframes titleUnderline {
-      0% { width: 0%; left: 0; }
-      50% { width: 100%; left: 0; }
-      100% { width: 0%; left: 100%; }
-    }
-    
-    .card {
-      background-color: #21262d;
-      border: 1px solid #30363d;
-      margin-bottom: 25px;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-      color: #c9d1d9; /* Added for better text visibility */
-    }
-    
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(56, 139, 253, 0.1),
-        transparent
-      );
-      transition: 0.5s;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(46, 164, 79, 0.1);
-      border-color: #238636;
-    }
-    
-    .card:hover::before {
-      left: 100%;
-    }
-    
-    .card-title {
-      color: #58a6ff; /* Added for better heading visibility */
-    }
-    
-    .card-text {
-      color: #c9d1d9; /* Added for better text visibility */
-    }
-    
-    .btn-custom {
-      background-color: #238636;
-      color: white;
-      border: none;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s;
-    }
-    
-    .btn-custom:hover {
-      background-color: #2ea043;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(46, 164, 79, 0.4);
-    }
-    
-    .btn-custom::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-      );
-      transition: 0.5s;
-    }
-    
-    .btn-custom:hover::after {
-      left: 100%;
-    }
-    
-    footer {
-      margin-top: 50px;
-      padding: 20px;
-      background-color: #161b22;
-      text-align: center;
-      color: #8b949e;
-      border-top: 1px solid #30363d;
-    }
-    
-    a {
-      color: #58a6ff;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    
-    a:hover {
-      color: #79c0ff;
-      text-shadow: 0 0 5px rgba(88, 166, 255, 0.5);
-    }
-    
-    .terminal {
-      background-color: #0a0e12;
-      color: #33ff33;
-      font-family: 'Courier New', monospace;
-      padding: 20px;
-      border-radius: 5px;
-      max-width: 800px;
-      margin: 20px auto;
-      white-space: pre-wrap;
-      border: 1px solid #238636;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(46, 164, 79, 0.2);
-    }
-    
-    .terminal::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%, 
-        rgba(0, 0, 0, 0.25) 50%
-      );
-      background-size: 100% 4px;
-      z-index: 1;
-      pointer-events: none;
-    }
-    
-    .cursor {
-      animation: blink 1s infinite;
-    }
-    
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    
-    .profile-img {
+
+    /* ── CUSTOM CURSOR ──────────────────────────────────── */
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--green);
       border-radius: 50%;
-      max-width: 150px;
-      margin: 20px auto;
-      display: block;
-      border: 3px solid #58a6ff;
-      box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
-      transition: all 0.3s;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      box-shadow: 0 0 10px var(--green);
     }
-    
-    .profile-img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(88, 166, 255, 0.8);
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid var(--green);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.6;
     }
-    
-    /* Skill bars */
-    .skill-container {
-      margin-bottom: 15px;
-    }
-    
-    .skill-name {
-      margin-bottom: 5px;
-      color: #c9d1d9;
-    }
-    
-    .skill-bar {
-      height: 10px;
-      background-color: #161b22;
-      border-radius: 5px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .skill-progress {
-      height: 100%;
-      border-radius: 5px;
-      background: linear-gradient(90deg, #238636, #33ff33);
-      position: relative;
-      width: 0;
-      transition: width 1.5s ease-in-out;
-    }
-    
-    .skill-progress::after {
+    body:hover .cursor-dot { opacity: 1; }
+
+    /* ── GRID BG ────────────────────────────────────────── */
+    body::before {
       content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-      );
-      animation: shine 2s infinite;
-    }
-    
-    @keyframes shine {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    
-    /* Glitch effect on hover */
-    .glitch-effect:hover {
-      animation: glitch 0.5s linear infinite;
-    }
-    
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(-2px, -2px); }
-      60% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-      100% { transform: translate(0); }
-    }
-    
-    /* Binary rain effect */
-    .binary-rain {
-      position: absolute;
-      color: rgba(46, 164, 79, 0.5);
-      animation: fall linear infinite;
-      z-index: -1;
-    }
-    
-    @keyframes fall {
-      to { transform: translateY(100vh); }
-    }
-    
-    /* Scan line animation */
-    .scan-line {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 255, 0, 0.1),
-        transparent
-      );
-      animation: scan 4s linear infinite;
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.35;
       pointer-events: none;
-      z-index: 999;
     }
-    
-    @keyframes scan {
-      0% { top: -10px; }
-      100% { top: 100%; }
+
+    /* ── SCAN LINE ──────────────────────────────────────── */
+    .scanline {
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(to bottom, transparent, rgba(0,230,118,.12), transparent);
+      animation: scan 6s linear infinite;
+      z-index: 1; pointer-events: none;
+    }
+    @keyframes scan { 0% { top: -10px; } 100% { top: 100vh; } }
+
+    /* ── MATRIX CANVAS ──────────────────────────────────── */
+    #matrix { position: fixed; inset: 0; z-index: 0; opacity: 0.06; pointer-events: none; }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,12,16,.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--green);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--text-dim); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--text-dim); font-size: .8rem;
+      text-decoration: none; letter-spacing: .1em;
+      transition: color .2s;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-status {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .75rem; color: var(--green);
+    }
+    .nav-status::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    /* ── SECTIONS ───────────────────────────────────────── */
+    section { position: relative; z-index: 2; }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 48px 80px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 820px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: .72rem; color: var(--text-dim);
+      margin-bottom: 32px;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .hero-name .accent { color: var(--green); }
+    .hero-role {
+      font-size: clamp(.8rem, 2vw, 1rem);
+      color: var(--text-dim); margin-bottom: 40px;
+      letter-spacing: .08em;
+    }
+    .hero-role .hl { color: var(--blue); }
+
+    /* Terminal */
+    .terminal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: left;
+      margin: 0 auto 40px;
+      max-width: 640px;
+      box-shadow: 0 0 40px rgba(0,230,118,.04), 0 20px 60px rgba(0,0,0,.5);
+    }
+    .terminal-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+    }
+    .t-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .t-red   { background: #ff5f57; }
+    .t-amber { background: #febc2e; }
+    .t-green { background: #28c840; }
+    .t-title { margin-left: auto; font-size: .7rem; color: var(--text-dim); }
+    .terminal-body { padding: 20px 24px; font-size: .82rem; line-height: 1.9; min-height: 160px; }
+    .t-prompt { color: var(--green); }
+    .t-path   { color: var(--blue); }
+    .t-cmd    { color: var(--white); }
+    .t-output { color: var(--text); }
+    .t-hi     { color: var(--green); font-weight: 500; }
+    .cursor { display: inline-block; width: 2px; height: 1em; background: var(--green); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* Hero buttons */
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem; font-weight: 500;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all .25s; letter-spacing: .05em;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--green); color: #080c10;
+    }
+    .btn-primary:hover { background: #00ff85; box-shadow: 0 0 24px rgba(0,230,118,.4); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: .65rem; color: var(--text-dim); letter-spacing: .15em;
+    }
+    .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--green), transparent); animation: scrollPulse 2s ease infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:.3;} 50%{opacity:1;} }
+
+    /* ── SECTION LAYOUT ─────────────────────────────────── */
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+    .section-label {
+      display: flex; align-items: center; gap: 16px;
+      font-size: .72rem; color: var(--green); letter-spacing: .2em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: ''; width: 32px; height: 1px; background: var(--green);
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--white); margin-bottom: 60px; line-height: 1.1;
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .about-text p { color: var(--text); font-size: .88rem; line-height: 1.9; margin-bottom: 16px; }
+    .about-text .hi { color: var(--green); }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stat-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .stat-card:hover { border-color: var(--green); transform: translateY(-3px); }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 2rem; color: var(--green); display: block; margin-bottom: 4px;
+    }
+    .stat-label { font-size: .72rem; color: var(--text-dim); letter-spacing: .08em; }
+
+    /* ── SKILLS ─────────────────────────────────────────── */
+    #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .skill-group {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px;
+      transition: border-color .25s, transform .25s;
+    }
+    .skill-group:hover { border-color: var(--green); transform: translateY(-4px); }
+    .skill-group-icon { font-size: 1.4rem; margin-bottom: 12px; }
+    .skill-group-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: .9rem; color: var(--white); margin-bottom: 16px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: .68rem; padding: 4px 10px; border-radius: 4px;
+      border: 1px solid var(--border); color: var(--text-dim);
+      letter-spacing: .06em; transition: all .2s;
+    }
+    .skill-group:hover .tag { border-color: var(--green-dim); color: var(--text); }
+
+    /* ── RESEARCH ───────────────────────────────────────── */
+    .research-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 40px; position: relative; overflow: hidden;
+      transition: border-color .25s;
+    }
+    .research-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+    }
+    .research-card:hover { border-color: var(--green); }
+    .research-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-dim); border: 1px solid var(--green);
+      color: var(--green); font-size: .68rem; padding: 4px 12px;
+      border-radius: 100px; margin-bottom: 20px; letter-spacing: .1em;
+    }
+    .research-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.3rem; color: var(--white); margin-bottom: 8px; line-height: 1.3;
+    }
+    .research-subtitle { font-size: .82rem; color: var(--blue); margin-bottom: 20px; font-style: italic; }
+    .research-body { font-size: .84rem; color: var(--text); line-height: 1.85; margin-bottom: 28px; }
+    .research-metrics { display: flex; gap: 32px; margin-bottom: 28px; flex-wrap: wrap; }
+    .metric { display: flex; flex-direction: column; gap: 2px; }
+    .metric-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--green); }
+    .metric-lab { font-size: .68rem; color: var(--text-dim); letter-spacing: .08em; }
+    .research-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .research-tag {
+      font-size: .68rem; padding: 4px 10px; border-radius: 4px;
+      background: var(--blue-dim); border: 1px solid rgba(56,189,248,.2);
+      color: var(--blue); letter-spacing: .05em;
+    }
+
+    /* ── PROJECTS ───────────────────────────────────────── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .project-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s;
+    }
+    .project-card:hover { border-color: var(--green); transform: translateY(-5px); }
+    .project-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, var(--green-dim), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .project-card:hover::after { opacity: 1; }
+    .project-num {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 3rem; color: var(--border); position: absolute; top: 20px; right: 24px;
+      line-height: 1; user-select: none;
+      transition: color .25s;
+    }
+    .project-card:hover .project-num { color: var(--green-dim); }
+    .project-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .65rem; color: var(--text-dim); margin-bottom: 16px;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+    .project-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.1rem; color: var(--white); margin-bottom: 12px; line-height: 1.3;
+      position: relative; z-index: 1;
+    }
+    .project-desc { font-size: .82rem; color: var(--text); line-height: 1.8; margin-bottom: 20px; flex: 1; position: relative; z-index: 1; }
+    .project-award {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,107,53,.08); border: 1px solid rgba(255,107,53,.25);
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: .75rem; color: var(--accent);
+      position: relative; z-index: 1;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; position: relative; z-index: 1; }
+    .stack-tag {
+      font-size: .65rem; padding: 3px 8px; border-radius: 4px;
+      border: 1px solid var(--border); color: var(--text-dim); letter-spacing: .06em;
+    }
+    .project-links { display: flex; gap: 12px; position: relative; z-index: 1; }
+    .proj-link {
+      font-size: .75rem; color: var(--text-dim); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s; letter-spacing: .06em;
+    }
+    .proj-link:hover { color: var(--green); }
+
+    /* ── TRYHACKME ──────────────────────────────────────── */
+    #tryhackme { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .thm-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; }
+    .thm-stat-card {
+      background: var(--bg3); border: 1px solid var(--green);
+      border-radius: 16px; padding: 36px; text-align: center;
+      box-shadow: 0 0 40px rgba(0,230,118,.07);
+    }
+    .thm-rank {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 3.5rem; color: var(--green); display: block; margin-bottom: 4px;
+      line-height: 1;
+    }
+    .thm-rank-label { font-size: .75rem; color: var(--text-dim); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px; display: block; }
+    .thm-rooms {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 2rem; color: var(--white); display: block; margin-bottom: 4px;
+    }
+    .thm-rooms-label { font-size: .72rem; color: var(--text-dim); letter-spacing: .1em; }
+    .thm-divider { width: 1px; background: var(--border); margin: 20px auto; height: 24px; }
+    .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .room-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px; font-size: .73rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .room-item:hover { border-color: var(--green); transform: translateX(3px); }
+    .room-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+    .room-name { color: var(--text); line-height: 1.4; }
+    .room-diff {
+      font-size: .6rem; padding: 1px 6px; border-radius: 3px; margin-left: auto;
+      flex-shrink: 0; letter-spacing: .06em; align-self: flex-start; margin-top: 2px;
+    }
+    .diff-easy   { background: rgba(0,230,118,.1);  color: var(--green); border: 1px solid rgba(0,230,118,.2); }
+    .diff-medium { background: rgba(255,193,7,.1);  color: #ffc107;      border: 1px solid rgba(255,193,7,.2); }
+    .diff-info   { background: rgba(56,189,248,.1); color: var(--blue);  border: 1px solid rgba(56,189,248,.2); }
+
+    /* ── EDUCATION ──────────────────────────────────────── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .edu-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 36px;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .edu-card:hover { border-color: var(--green); transform: translateY(-4px); }
+    .edu-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; bottom: 0;
+      background: linear-gradient(to bottom, var(--green), var(--blue));
+    }
+    .edu-year { font-size: .72rem; color: var(--text-dim); letter-spacing: .1em; margin-bottom: 10px; text-transform: uppercase; }
+    .edu-degree {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.05rem; color: var(--white); margin-bottom: 6px; line-height: 1.3;
+    }
+    .edu-school { font-size: .8rem; color: var(--green); margin-bottom: 16px; }
+    .edu-gpa {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.8rem; color: var(--white); margin-bottom: 4px;
+    }
+    .edu-gpa-label { font-size: .68rem; color: var(--text-dim); letter-spacing: .1em; margin-bottom: 16px; }
+    .edu-courses { font-size: .74rem; color: var(--text-dim); line-height: 1.7; }
+    .edu-score {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 3rem; color: var(--green); margin-bottom: 4px;
+    }
+
+    /* ── CONTACT ────────────────────────────────────────── */
+    #contact { background: var(--bg2); border-top: 1px solid var(--border); }
+    .contact-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+    .contact-inner .section-label { justify-content: center; }
+    .contact-inner .section-label::before { display: none; }
+    .contact-desc { font-size: .88rem; color: var(--text); line-height: 1.85; margin-bottom: 48px; }
+    .contact-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 24px;
+      color: var(--text); text-decoration: none; font-size: .8rem;
+      transition: all .25s;
+    }
+    .contact-link:hover { border-color: var(--green); color: var(--green); transform: translateY(-3px); }
+    .contact-link .ico { font-size: 1rem; }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      font-size: .72rem; color: var(--text-dim);
+      position: relative; z-index: 2;
+    }
+    footer span { color: var(--green); }
+
+    /* ── FADE-IN ────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .section-wrap { padding: 72px 24px; }
+      #hero { padding: 100px 24px 60px; }
+      .about-grid, .thm-grid, .edu-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .research-metrics { gap: 20px; }
     }
   </style>
 </head>
 <body>
-  <!-- Matrix background canvas -->
-  <canvas id="matrix-canvas"></canvas>
-  
-  <!-- Scan line effect -->
-  <div class="scan-line"></div>
-  
-  <!-- Binary rain elements will be added by JS -->
-  
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand glitch-effect" href="#">$> Ahmad_AlMaghaireh</a>
-    </div>
+
+  <div class="cursor-dot" id="dot"></div>
+  <div class="cursor-ring" id="ring"></div>
+  <div class="scanline"></div>
+  <canvas id="matrix"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="#"><span>~/</span>Ahmad_AlMaghaireh</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#tryhackme">TryHackMe</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-status">available for internship</div>
   </nav>
 
-  <!-- Hero -->
-  <section class="text-center p-5" data-aos="fade-up">
-    <img src="1.jpg" alt="Ahmad Profile Photo" class="profile-img shake-slow" />
-    <h1 class="display-5">Cybersecurity Student & Developer</h1>
-    <p class="lead">Building secure, smart systems with ethical hacking, AI, and web development</p>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        Cybersecurity Student · Jordan
+      </div>
+      <h1 class="hero-name">Ahmad<br><span class="accent">AlMaghaireh</span></h1>
+      <p class="hero-role">
+        SOC Analyst · <span class="hl">Pen Tester</span> · Security Researcher · AI Developer
+      </p>
 
-    <!-- Terminal with About Me -->
-    <div class="terminal" id="type-terminal" data-aos="zoom-in">
-      <span id="terminal-text"></span>
-      <span class="cursor">|</span>
-    </div>
-
-    <a href="Ahmad-CV.pdf" class="btn btn-custom mt-3 shake" download>📥 Download My CV</a>
-  </section>
-
-  <!-- Education Section -->
-  <section class="container py-5" data-aos="fade-right">
-    <h2 class="section-title">Education</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Bachelor of Cyber Security</h5>
-            <p class="card-text">
-              Al Hussein Technical University (HTU)<br>
-              GPA: 3.8<br>
-              Expected Graduation: August 2026
-            </p>
-          </div>
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="t-dot t-red"></div>
+          <div class="t-dot t-amber"></div>
+          <div class="t-dot t-green"></div>
+          <span class="t-title">bash — ahmad@htu</span>
+        </div>
+        <div class="terminal-body" id="term-body">
+          <div><span class="t-prompt">ahmad@htu</span><span class="t-path">:~/portfolio</span><span class="t-cmd">$ whoami</span></div>
+          <div id="term-out" class="t-output"></div>
+          <div id="term-cursor" style="display:none"><span class="t-prompt">ahmad@htu</span><span class="t-path">:~/portfolio</span><span class="t-cmd">$ </span><span class="cursor"></span></div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">High School (Tawjihi)</h5>
-            <p class="card-text">
-              Scientific Stream<br>
-              Score: 96.7%
-            </p>
-          </div>
-        </div>
+
+      <div class="hero-btns">
+        <a href="Ahmad_AlMaghaireh_CV_v5.docx" class="btn btn-primary" download>
+          &#8595; Download CV
+        </a>
+        <a href="#projects" class="btn btn-ghost">
+          View Projects &#8594;
+        </a>
       </div>
     </div>
-    <div class="mt-3">
-      <p class="text-light"><strong>Relevant Coursework:</strong> Network Security, Operating Systems, Cryptography, Data Structures</p>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- Skills -->
-  <section class="container py-5" data-aos="fade-left">
-    <h2 class="section-title">Skills</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="skill-container">
-          <div class="skill-name">Ethical Hacking (CEH)</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="90%"></div>
-          </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-wrap">
+      <div class="section-label">01 // About</div>
+      <h2 class="section-title fade-up">Securing systems.<br>Building tools.</h2>
+      <div class="about-grid fade-up">
+        <div class="about-text">
+          <p>I'm a <span class="hi">Cybersecurity undergraduate</span> at Al Hussein Technical University (HTU), on track to graduate in February 2027 — completing my degree in <span class="hi">3.5 years</span>, six months ahead of schedule.</p>
+          <p>My work sits at the intersection of offensive security, AI-powered threat detection, and automation. I've built everything from award-winning browser extensions that detect political manipulation, to offline phishing detection systems powered by explainable machine learning.</p>
+          <p>I'm actively sharpening my skills through <span class="hi">TryHackMe CTFs</span> (Top 15% globally), academic research, and personal projects that solve real problems — like automating university course registration and monitoring exam portals.</p>
+          <p>I'm seeking a <span class="hi">cybersecurity internship or junior SOC/pen-test role</span> where I can contribute and keep growing.</p>
         </div>
-        <div class="skill-container">
-          <div class="skill-name">Network Security (CCNA)</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="85%"></div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-num">3.7</span>
+            <span class="stat-label">GPA / 4.0</span>
           </div>
-        </div>
-        <div class="skill-container">
-          <div class="skill-name">Secure Coding (PHP, Java, Python)</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="88%"></div>
+          <div class="stat-card">
+            <span class="stat-num">Top<br>15%</span>
+            <span class="stat-label">TryHackMe Global Rank</span>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="skill-container">
-          <div class="skill-name">FastAPI & OpenAI APIs</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="80%"></div>
+          <div class="stat-card">
+            <span class="stat-num">35+</span>
+            <span class="stat-label">THM Rooms Completed</span>
           </div>
-        </div>
-        <div class="skill-container">
-          <div class="skill-name">Web Development</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="85%"></div>
-          </div>
-        </div>
-        <div class="skill-container">
-          <div class="skill-name">NLP & Hugging Face Transformers</div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="75%"></div>
+          <div class="stat-card">
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Security Lab Projects</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Projects -->
-  <section class="container py-5" data-aos="fade-up">
-    <h2 class="section-title text-center">Projects</h2>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-wrap">
+      <div class="section-label">02 // Skills</div>
+      <h2 class="section-title fade-up">What I work with.</h2>
+      <div class="skills-grid">
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">⚔️</div>
+          <div class="skill-group-title">Offensive Security</div>
+          <div class="skill-tags">
+            <span class="tag">Penetration Testing</span><span class="tag">Ethical Hacking</span>
+            <span class="tag">OWASP Top 10</span><span class="tag">SQL Injection</span>
+            <span class="tag">XSS / CSRF</span><span class="tag">Privilege Escalation</span>
+            <span class="tag">Nmap</span><span class="tag">Metasploit</span>
+            <span class="tag">Burp Suite</span><span class="tag">CEH Techniques</span>
+          </div>
+        </div>
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">🛡️</div>
+          <div class="skill-group-title">Defensive / SOC</div>
+          <div class="skill-tags">
+            <span class="tag">Network Security</span><span class="tag">Firewall Config</span>
+            <span class="tag">Intrusion Detection</span><span class="tag">Log Analysis</span>
+            <span class="tag">Risk Analysis</span><span class="tag">Cryptography</span>
+            <span class="tag">Hashing</span><span class="tag">Wireshark</span>
+            <span class="tag">Digital Forensics</span><span class="tag">SIEM (academic)</span>
+          </div>
+        </div>
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">🤖</div>
+          <div class="skill-group-title">AI & Security Research</div>
+          <div class="skill-tags">
+            <span class="tag">XGBoost</span><span class="tag">SHAP / XAI</span>
+            <span class="tag">NLP</span><span class="tag">Hugging Face</span>
+            <span class="tag">AraBERT</span><span class="tag">FastAPI</span>
+            <span class="tag">OpenAI API</span><span class="tag">Feature Engineering</span>
+          </div>
+        </div>
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">⚙️</div>
+          <div class="skill-group-title">Automation & Scripting</div>
+          <div class="skill-tags">
+            <span class="tag">Python</span><span class="tag">Playwright</span>
+            <span class="tag">Web Scraping</span><span class="tag">Browser Automation</span>
+            <span class="tag">GitHub Actions</span><span class="tag">Telegram Bot API</span>
+            <span class="tag">REST APIs</span><span class="tag">Bash</span>
+          </div>
+        </div>
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">💻</div>
+          <div class="skill-group-title">Programming</div>
+          <div class="skill-tags">
+            <span class="tag">Python</span><span class="tag">Java</span>
+            <span class="tag">JavaScript</span><span class="tag">PHP</span>
+            <span class="tag">SQL</span><span class="tag">HTML/CSS</span><span class="tag">Bash</span>
+          </div>
+        </div>
+        <div class="skill-group fade-up">
+          <div class="skill-group-icon">🔧</div>
+          <div class="skill-group-title">Tools & OS</div>
+          <div class="skill-tags">
+            <span class="tag">Kali Linux</span><span class="tag">Linux</span>
+            <span class="tag">Windows</span><span class="tag">Git / GitHub</span>
+            <span class="tag">Wireshark</span><span class="tag">Postman</span>
+            <span class="tag">VS Code</span><span class="tag">XAMPP</span>
+            <span class="tag">Chrome Extension Dev</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Project 1 -->
-    <div class="card" data-aos="fade-up">
-      <div class="card-body">
-        <h5 class="card-title">SecureMidea – Instagram Political Filter</h5>
-        <p class="card-text">Chrome extension using FastAPI and NLP (Arabert) to detect politically manipulative Arabic comments. Won 2nd place in Creative Cybersecurity & AI competition.</p>
-        <p class="card-text"><strong>Tech:</strong> JavaScript, FastAPI, Hugging Face, Arabert</p>
-        <p class="card-text">
-          🔗 <a href="https://github.com/AhmadM962/Secure_Midea" target="_blank" class="glitch-effect">GitHub</a>
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-wrap">
+      <div class="section-label">03 // Research</div>
+      <h2 class="section-title fade-up">Academic research paper.</h2>
+      <div class="research-card fade-up">
+        <div class="research-badge">&#128196; Academic Research Paper · 2025 – 2026</div>
+        <div class="research-title">A Lightweight, Privacy-Preserving Offline Phishing Detection System Using Explainable URL-Based Analysis</div>
+        <div class="research-subtitle">Computing Research Project — Al Hussein Technical University</div>
+        <div class="research-body">
+          Designed and evaluated a fully offline, client-side phishing URL detection system using a lightweight XGBoost classifier trained exclusively on intrinsic URL-based lexical and structural features. Integrated SHAP (SHapley Additive Explanations) for post-hoc interpretability, providing both global feature importance and local per-prediction explanations. Validated through a prototype browser extension performing real-time on-device inference with non-intrusive inline warnings — eliminating all dependence on cloud services or external reputation APIs.
+        </div>
+        <div class="research-metrics">
+          <div class="metric"><span class="metric-val">99.93%</span><span class="metric-lab">Accuracy</span></div>
+          <div class="metric"><span class="metric-val">&lt;0.1%</span><span class="metric-lab">Miss Rate</span></div>
+          <div class="metric"><span class="metric-val">&lt;0.1%</span><span class="metric-lab">False Alarm Rate</span></div>
+          <div class="metric"><span class="metric-val">ms</span><span class="metric-lab">Inference Latency</span></div>
+        </div>
+        <div class="research-tags" style="margin-bottom:28px">
+          <span class="research-tag">XGBoost</span><span class="research-tag">SHAP / XAI</span>
+          <span class="research-tag">Phishing Detection</span><span class="research-tag">Privacy-Preserving</span>
+          <span class="research-tag">Browser Extension</span><span class="research-tag">NLP</span>
+          <span class="research-tag">Feature Engineering</span>
+        </div>
+        <a href="https://github.com/AhmadM962/my-projects/blob/main/Computing%20Research%20Project/conference-paper-2026.pdf"
+           target="_blank" class="btn btn-ghost" style="width:fit-content">
+          &#128196; View Full Paper
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-wrap">
+      <div class="section-label">04 // Projects</div>
+      <h2 class="section-title fade-up">Things I've built.</h2>
+      <div class="projects-grid">
+
+        <!-- SecureMidea -->
+        <div class="project-card fade-up">
+          <div class="project-num">01</div>
+          <div class="project-badge"><span class="badge-dot"></span>AI · Security · NLP</div>
+          <div class="project-title">SecureMidea — AI Political Comment Threat Detection</div>
+          <div class="project-award">🏆 2nd Place — Creative Cybersecurity & AI Competition, Al-Zaytoonah University (2025)</div>
+          <div class="project-desc">Chrome extension + FastAPI backend that classifies Arabic Instagram comments in real time using the AraBERT NLP transformer model to detect and flag politically manipulative and bot-generated content. Presented at Jordan's 2025 Tawasul Forum (national tech conference).</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">JavaScript</span><span class="stack-tag">AraBERT</span>
+            <span class="stack-tag">Hugging Face</span><span class="stack-tag">Chrome Extension</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/AhmadM962/Secure_Midea" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+        <!-- Phishing Extension -->
+        <div class="project-card fade-up">
+          <div class="project-num">02</div>
+          <div class="project-badge"><span class="badge-dot"></span>Security · ML · Browser</div>
+          <div class="project-title">Offline Phishing Detection Browser Extension</div>
+          <div class="project-desc">Privacy-preserving browser extension that detects phishing URLs in real time using a locally-running XGBoost model trained on URL-based features only. SHAP explanations surface the exact URL characteristics that triggered each warning — no cloud, no data leakage.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">XGBoost</span>
+            <span class="stack-tag">SHAP</span><span class="stack-tag">JavaScript</span>
+            <span class="stack-tag">Chrome Extension</span><span class="stack-tag">FastAPI</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/AhmadM962/my-projects" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+        <!-- LawyerGPT -->
+        <div class="project-card fade-up">
+          <div class="project-num">03</div>
+          <div class="project-badge"><span class="badge-dot"></span>Full-Stack · Security · AI</div>
+          <div class="project-title">LawyerGPT — Secure AI Legal Assistant</div>
+          <div class="project-desc">Production-deployed PHP/MySQL web application integrating the OpenAI API. Security-first design: session-based authentication, SQL injection prevention, HTTPS enforcement, and OWASP-aligned input sanitization. Live with .htaccess routing hardening.</div>
+          <div class="project-stack">
+            <span class="stack-tag">PHP</span><span class="stack-tag">MySQL</span>
+            <span class="stack-tag">JavaScript</span><span class="stack-tag">OpenAI API</span>
+            <span class="stack-tag">Apache</span><span class="stack-tag">HTTPS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://lawyergpt.online/" target="_blank" class="proj-link">&#127758; Live Site</a>
+            <a href="https://github.com/AhmadM962/Lawyer-Gpt" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+        <!-- Course Checker -->
+        <div class="project-card fade-up">
+          <div class="project-num">04</div>
+          <div class="project-badge"><span class="badge-dot"></span>Automation · Python</div>
+          <div class="project-title">Course Checker — Automated SIS Monitor</div>
+          <div class="project-desc">Python automation tool using Playwright that logs into the HTU SIS portal, monitors target course section availability, and fires real-time burst notifications via Telegram Bot API. Deployed on GitHub Actions with 5-minute scheduled checks — with state tracking to prevent duplicate alerts.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">Playwright</span>
+            <span class="stack-tag">GitHub Actions</span><span class="stack-tag">Telegram API</span>
+            <span class="stack-tag">Web Scraping</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/AhmadM962/course-checker" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+        <!-- Tawjihi Checker -->
+        <div class="project-card fade-up">
+          <div class="project-num">05</div>
+          <div class="project-badge"><span class="badge-dot"></span>Automation · Monitoring</div>
+          <div class="project-title">Tawjihi Checker — Exam Results Monitor</div>
+          <div class="project-desc">Python monitoring script that continuously polls the Tawjihi national exam results portal and triggers an audio alarm the instant the site goes live — enabling first-mover access to results. Demonstrates practical web monitoring and automation skills.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">Requests</span>
+            <span class="stack-tag">Pygame</span><span class="stack-tag">Web Monitoring</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/AhmadM962/tawjihi_checker" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+        <!-- Uni Projects -->
+        <div class="project-card fade-up">
+          <div class="project-num">06</div>
+          <div class="project-badge"><span class="badge-dot"></span>Security · Academic</div>
+          <div class="project-title">Cybersecurity Lab Projects (10+)</div>
+          <div class="project-desc">Academic security projects covering: SQL injection, XSS, CSRF exploitation, privilege escalation, firewall configuration, Wireshark packet analysis, intrusion detection, and secure application development in Python and Java — all documented publicly on GitHub.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span><span class="stack-tag">Java</span>
+            <span class="stack-tag">Kali Linux</span><span class="stack-tag">Wireshark</span>
+            <span class="stack-tag">Nmap</span><span class="stack-tag">Metasploit</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/AhmadM962/my-projects" target="_blank" class="proj-link">&#128279; GitHub</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRYHACKME -->
+  <section id="tryhackme">
+    <div class="section-wrap">
+      <div class="section-label">05 // TryHackMe</div>
+      <h2 class="section-title fade-up">Hands-on CTF practice.</h2>
+      <div class="thm-grid fade-up">
+        <div>
+          <div class="thm-stat-card">
+            <span class="thm-rank">Top<br>15%</span>
+            <span class="thm-rank-label">Global Ranking</span>
+            <div class="thm-divider"></div>
+            <span class="thm-rooms">35+</span>
+            <span class="thm-rooms-label">Rooms Completed</span>
+            <br><br>
+            <a href="https://tryhackme.com/p/Ahmad147" target="_blank"
+               class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px;">
+              View Profile &#8594;
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="rooms-grid">
+            <div class="room-item"><span class="room-icon">🔐</span><span class="room-name">John the Ripper: The Basics</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">DNS in Detail</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">HTTP in Detail</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔗</span><span class="room-name">What is Networking?</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🔗</span><span class="room-name">Intro to LAN</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">📡</span><span class="room-name">OSI Model</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">📦</span><span class="room-name">Packets & Frames</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🌍</span><span class="room-name">Extending Your Network</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🔍</span><span class="room-name">Intro to Digital Forensics</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🖥️</span><span class="room-name">Operating System Security</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">⚔️</span><span class="room-name">Offensive Security Intro</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">Network Security</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">Web Application Security</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🛡️</span><span class="room-name">Defensive Security Intro</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🏢</span><span class="room-name">Security Operations (SOC)</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔌</span><span class="room-name">Introductory Networking</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔧</span><span class="room-name">Network Services</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔍</span><span class="room-name">Introductory Researching</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔐</span><span class="room-name">Hashing — Crypto 101</span><span class="room-diff diff-medium">medium</span></div>
+            <div class="room-item"><span class="room-icon">📤</span><span class="room-name">Upload Vulnerabilities</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🔧</span><span class="room-name">Network Services 2</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🎯</span><span class="room-name">Nmap</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🐧</span><span class="room-name">Linux Fundamentals Part 1</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🐧</span><span class="room-name">Linux Fundamentals Part 2</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🐧</span><span class="room-name">Linux Fundamentals Part 3</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">How Websites Work</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🪟</span><span class="room-name">Windows Fundamentals 1</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🪟</span><span class="room-name">Windows Fundamentals 2</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🪟</span><span class="room-name">Windows Fundamentals 3</span><span class="room-diff diff-info">info</span></div>
+            <div class="room-item"><span class="room-icon">🥒</span><span class="room-name">Pickle Rick (CTF)</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">⚔️</span><span class="room-name">Basic Pentesting (CTF)</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">💥</span><span class="room-name">Metasploit: Exploitation</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">💉</span><span class="room-name">Metasploit: Meterpreter</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🌐</span><span class="room-name">Putting It All Together</span><span class="room-diff diff-easy">easy</span></div>
+            <div class="room-item"><span class="room-icon">🚀</span><span class="room-name">Starting Out In Cyber Sec</span><span class="room-diff diff-easy">easy</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-wrap">
+      <div class="section-label">06 // Education</div>
+      <h2 class="section-title fade-up">Academic background.</h2>
+      <div class="edu-grid fade-up">
+        <div class="edu-card">
+          <div class="edu-year">2023 — Feb 2027 (3.5 years, accelerated)</div>
+          <div class="edu-degree">B.Sc. in Cybersecurity</div>
+          <div class="edu-school">Al Hussein Technical University (HTU) · Amman, Jordan</div>
+          <div class="edu-gpa">3.7</div>
+          <div class="edu-gpa-label">GPA / 4.0</div>
+          <div class="edu-courses">
+            Ethical Hacking · Network Security · Cryptography · Information Security ·
+            Risk Analysis & Systems Testing · AI & Intelligent Systems ·
+            Database Design · Data Structures & Algorithms ·
+            Operating Systems · Software Development Lifecycle ·
+            Computing Research Project · Entrepreneurship BootCamp
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-year">High School · Jordan</div>
+          <div class="edu-degree">Scientific Stream — Tawjihi</div>
+          <div class="edu-school">National Secondary Certificate</div>
+          <div class="edu-score">96.7%</div>
+          <div class="edu-gpa-label">Final Score</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-wrap">
+      <div class="contact-inner">
+        <div class="section-label">07 // Contact</div>
+        <h2 class="section-title fade-up" style="margin-bottom:24px">Let's connect.</h2>
+        <p class="contact-desc fade-up">
+          I'm actively seeking a cybersecurity internship or junior SOC/pen-test role.
+          Whether you have an opportunity, a question, or just want to talk security — my inbox is open.
         </p>
-      </div>
-    </div>
-
-    <!-- Project 2 -->
-    <div class="card" data-aos="fade-up" data-aos-delay="100">
-      <div class="card-body">
-        <h5 class="card-title">Lawyer GPT – AI Legal Assistant</h5>
-        <p class="card-text">Full-stack legal chatbot platform using PHP and OpenAI API with secure authentication and responsive design.</p>
-        <p class="card-text">
-          🌐 <a href="https://lawyergpt.online/" target="_blank" class="glitch-effect">Live Site</a><br>
-          🔗 <a href="https://github.com/AhmadM962/Lawyer-Gpt" target="_blank" class="glitch-effect">GitHub</a>
-        </p>
-      </div>
-    </div>
-
-    <!-- Project 3 -->
-    <div class="card" data-aos="fade-up" data-aos-delay="200">
-      <div class="card-body">
-        <h5 class="card-title">Cybersecurity University Projects</h5>
-        <p class="card-text">Over 10 projects in ethical hacking, firewall configuration, and secure development. Publicly available on GitHub.</p>
-        <p class="card-text">
-          🔗 <a href="https://github.com/AhmadM962/my-projects" target="_blank" class="glitch-effect">GitHub: AhmadM962</a>
-        </p>
+        <div class="contact-links fade-up">
+          <a href="mailto:ahmadceh317@gmail.com" class="contact-link">
+            <span class="ico">✉</span> ahmadceh317@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/ahmad-maghairah-635961204/" target="_blank" class="contact-link">
+            <span class="ico">💼</span> LinkedIn
+          </a>
+          <a href="https://github.com/AhmadM962" target="_blank" class="contact-link">
+            <span class="ico">⌨</span> GitHub
+          </a>
+          <a href="https://tryhackme.com/p/Ahmad147" target="_blank" class="contact-link">
+            <span class="ico">🎯</span> TryHackMe
+          </a>
+        </div>
+        <a href="Ahmad_AlMaghaireh_CV_v5.docx" class="btn btn-primary fade-up" download style="margin:0 auto;display:inline-flex;">
+          &#8595; Download CV
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="container py-5" data-aos="zoom-in">
-    <h2 class="section-title">Contact</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <ul class="list-unstyled">
-              <li><strong>Email:</strong> <a href="mailto:0@htu.edu.jo" class="glitch-effect">0@htu.edu.jo</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <ul class="list-unstyled">
-              <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ahmad-maghaireh-635961204/" target="_blank" class="glitch-effect">ahmad-maghaireh</a></li>
-              <li><strong>GitHub:</strong> <a href="https://github.com/AhmadM962" target="_blank" class="glitch-effect">AhmadM962</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="shake-slow">
-    &copy; 2025 Ahmad AlMaghaireh | Cybersecurity Portfolio
+  <footer>
+    <span>Ahmad AlMaghaireh</span> · Cybersecurity Portfolio · Jordan &copy; 2026
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    // Initialize AOS animations
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
-    
-    // Terminal typing animation
-    const terminalText = `About Me\n\nI'm Ahmad AlMaghaireh, a Cyber Security student at Al Hussein Technical University. \nI'm passionate about ethical hacking, secure coding, and using AI to build smarter, safer systems. \nI've built multiple projects ranging from secure web apps to browser extensions and have competed in CTFs and idea competitions.`;
-    const terminalElement = document.getElementById('terminal-text');
-    let i = 0;
-    
-    function typeWriter() {
-      if (i < terminalText.length) {
-        terminalElement.innerHTML = terminalText.substring(0, i+1);
-        i++;
-        setTimeout(typeWriter, Math.random() * 50 + 20);
-      } else {
-        terminalElement.innerHTML += '<span class="cursor">|</span>';
-      }
-    }
-    
-    // Start typing animation after a short delay
-    setTimeout(typeWriter, 1000);
-    
-    // Animate skill bars on scroll
-    function animateSkillBars() {
-      const skillBars = document.querySelectorAll('.skill-progress');
-      skillBars.forEach(bar => {
-        const width = bar.getAttribute('data-width');
-        bar.style.width = width;
-      });
-    }
-    
-    // Run skill bar animation when skills section is in view
-    const skillsSection = document.querySelector('section:nth-of-type(3)');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateSkillBars();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    
-    observer.observe(skillsSection);
-    
-    // Matrix background effect
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const nums = '0123456789';
-    const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
-    
-    const alphabet = katakana + latin + nums + symbols;
-    
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    
-    const rainDrops = [];
-    
-    for (let x = 0; x < columns; x++) {
-      rainDrops[x] = 1;
-    }
-    
-    const draw = () => {
-      ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      ctx.fillStyle = '#33ff33';
-      ctx.font = fontSize + 'px monospace';
-      
-      for (let i = 0; i < rainDrops.length; i++) {
-        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-        
-        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          rainDrops[i] = 0;
-        }
-        rainDrops[i]++;
-      }
-    };
-    
-    setInterval(draw, 30);
-    
-    // Binary rain effect
-    function createBinaryRain() {
-      const binary = '0101010101';
-      const element = document.createElement('div');
-      element.className = 'binary-rain';
-      element.textContent = binary;
-      element.style.left = Math.random() * window.innerWidth + 'px';
-      element.style.animationDuration = (Math.random() * 5 + 3) + 's';
-      document.body.appendChild(element);
-      
+    // ── CURSOR ───────────────────────────────────────────
+    const dot = document.getElementById('dot');
+    const ring = document.getElementById('ring');
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX + 'px';
+      dot.style.top  = e.clientY + 'px';
       setTimeout(() => {
-        element.remove();
-      }, parseFloat(element.style.animationDuration) * 1000);
-    }
-    
-    // Create binary rain elements periodically
-    setInterval(createBinaryRain, 100);
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+        ring.style.left = e.clientX + 'px';
+        ring.style.top  = e.clientY + 'px';
+      }, 60);
     });
+    document.querySelectorAll('a, button, .project-card, .skill-group, .stat-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.6)'; ring.style.borderColor = '#00e676'; });
+      el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.borderColor = '#00e676'; });
+    });
+
+    // ── MATRIX ──────────────────────────────────────────
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = window.innerWidth;
+    let H = canvas.height = window.innerHeight;
+    const cols = Math.floor(W / 18);
+    const drops = Array(cols).fill(1);
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(8,12,16,0.05)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#00e676';
+      ctx.font = '14px JetBrains Mono, monospace';
+      drops.forEach((y, i) => {
+        ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 18, y * 18);
+        if (y * 18 > H && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }
+    setInterval(drawMatrix, 40);
+    window.addEventListener('resize', () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });
+
+    // ── TERMINAL TYPING ──────────────────────────────────
+    const lines = [
+      '> Name:      Ahmad Marwan AlMaghaireh',
+      '> Role:      Cybersecurity Student @ HTU',
+      '> GPA:       3.7 / 4.0',
+      '> Status:    Seeking internship / junior role',
+      '> Location:  Amman, Jordan',
+      '> THM Rank:  Top 15% globally (35+ rooms)',
+      '> Research:  Phishing detection w/ XGBoost + SHAP',
+      '> Award:     2nd Place — Cybersecurity & AI Comp. 2025',
+    ];
+    const out = document.getElementById('term-out');
+    const termCursor = document.getElementById('term-cursor');
+    let li = 0, ci = 0, text = '';
+    function type() {
+      if (li >= lines.length) { termCursor.style.display = 'block'; return; }
+      if (ci < lines[li].length) {
+        text += lines[li][ci++];
+        out.innerHTML = text.replace(/\n/g, '<br>');
+        setTimeout(type, Math.random() * 22 + 10);
+      } else {
+        text += '\n'; ci = 0; li++;
+        setTimeout(type, 120);
+      }
+    }
+    setTimeout(type, 600);
+
+    // ── FADE-IN ON SCROLL ────────────────────────────────
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
   </script>
 </body>
 </html>
